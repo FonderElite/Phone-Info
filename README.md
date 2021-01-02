@@ -21,7 +21,8 @@ pip install requirements.txt
 
 ```
 python3 phoneinfo.py
-
+./phone-info -p -s 
+Input a phone number to start:$+91776483632
 ```
 
 ## Contributing
