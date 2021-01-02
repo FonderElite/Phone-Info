@@ -4,28 +4,39 @@ import sys
 import colorama
 from colorama import Fore
 import phonenumbers
-from phonenumbers import geocoder, carrier,timezone,util
+from phonenumbers import geocoder, carrier, timezone, util
 import platform
-import httplib
-wi="\033[1;37m" #>>White#
-rd="\033[1;31m" #>Red   #
-gr="\033[1;32m" #>Green #
-yl="\033[1;33m" #>Yellow#
+
+
+wi = "\033[1;37m"  # >>White#
+rd = "\033[1;31m"  # >Red   #
+gr = "\033[1;32m"  # >Green #
+yl = "\033[1;33m"  # >Yellow#
 #########################
-versionPath = "core"+os.sep+"version.txt"
+versionPath = "core" + os.sep + "version.txt"
 user = platform.system()
+
+
 def updatephoneinfo():
+    check = os.path.exists('requirements.txt')
     if not os.path.isfile(versionPath):
-        errMsg("Unable to check for updates: please re-clone the script to fix this problem")
+        print(Fore.RED + "Unable to check for updates: please re-clone the script to fix any issues encountered.")
         sys.exit(1)
         write("[~] Checking for updates...\n")
-        conn = httplib.HTTPSConnection("raw.githubusercontent.com")
-        conn.request("GET", "/FonderElite/Phone-Info/master/core/version.txt")
+       # conn = httplib.client.HTTPSConnection("raw.githubusercontent.com")
+       # conn.request("GET", "/FonderElite/Phone-Info/master/core/version.txt")
         repoVersion = conn.getresponse().read().strip().decode()
     with open(versionPath) as vf:
         currentVersion = vf.read().strip()
     if repoVersion == currentVersion:
         write("  [*] The script is up to date!\n")
+    elif check == True:
+        print(Fore.CYAN + "Files are complete!")
+    elif check == False:
+        print(Fore.RED + "Files Are Incomplete!")
+        time.sleep(1)
+        print(Fore.MAGENTA + "Cloning From Repo..")
+        os.system('git clone https://github.com/FonderElite/Phone-Info')
     else:
         print("  [+] An update has been found ::: Updating... ")
         conn.request("GET", "/FonderElite/Phone-Info/master/phoneinfo.py")
@@ -37,8 +48,9 @@ def updatephoneinfo():
         write("  [+] Successfully updated :)\n")
         sys.exit()
 
+
 def helpm():
-            print(Fore.GREEN + '''
+    print(Fore.GREEN + '''
 =============================================
 +|  Phone-Info  By  F o n d e r E l i t e  |+
 +|-----------------------------------------|+
@@ -50,14 +62,24 @@ def helpm():
 +|Ex. ./phoneinfo -p -s                    |+
 +|=========================================|+
 ''')
-banner = (Fore.GREEN+ '''
-  __i
-|---|    
-|[_]|   Phone-Number Information
-|:::|    Gathering Tool
-|:::|    
-`\   \   
-  \_=_\                                 
+
+
+banner = (Fore.GREEN + '''
+         .              .   .'.     \   /
+   \   /      .'. .' '.'   '  -=  o  =-
+ -=  o  =-  .'   '              / | 
+   / | \                          |
+     |                            |
+     |                            |
+     |        [Phone-Info]  .=====|
+     |=====.  Extract Info  |.---.|
+     |.---.|  from phone    ||=o=||
+     ||=o=||  numbers.      ||   ||
+     ||   ||                ||   ||
+     ||   ||                ||___||
+     ||___||                |[:::]|
+     |[:::]|                '-----'
+     '-----'
     ''')
 social = Fore.MAGENTA + '''
  Made By FonderElite || Droid
@@ -80,52 +102,58 @@ print(banner)
 time.sleep(2)
 print(social)
 print(help)
-print(Fore.YELLOW + 
-'Support me by donating in my bitcoin wallet:' + Fore.BLUE + btcadd)
+print(Fore.YELLOW +
+      'Support me by donating in my bitcoin wallet:' + Fore.BLUE + btcadd)
 while True:
- command = input(wi + gr + "[+]Input a command: ")
- if command == "./phoneinfo -h":
-    print(help)
- elif command == "./phoneinfo -p -s":
-     phonenum = input("Input a Phone Number to start: ")
-     phone_number = phonenumbers.parse(phonenum)
-     validate = phonenumbers.is_valid_number(phone_number)
-     location = geocoder.country_name_for_number(phone_number,'en')
-     region = geocoder.description_for_number(phone_number,'en')
-     probability = phonenumbers.is_possible_number(phone_number)
-     metadata = phonenumbers.PhoneMetadata(phone_number)
-     carrier_desc = carrier.name_for_number(phone_number,'en')
-     timezone = timezone.time_zones_for_number(phone_number)
-     source = phonenumbers.PhoneNumberDesc(phone_number)
-     str(validate)
-     print(Fore.MAGENTA + "Checking if Phone Number is Valid...")
-     time.sleep(2)
-     print(Fore.CYAN + str(validate))
-     time.sleep(1)
-     print(Fore.MAGENTA + "Location: " + Fore.CYAN + location)
-     time.sleep(1)
-     print(Fore.MAGENTA + "Probability(If False): " + Fore.CYAN + str(probability))
-     time.sleep(1)
-     print(Fore.MAGENTA + "Metadata: " + Fore.CYAN + str(metadata))
-     time.sleep(1)
-     print(Fore.MAGENTA + "Carrier: " + Fore.CYAN + carrier_desc)
-     time.sleep(1)
-     print(Fore.MAGENTA + "Timezone: " + Fore.CYAN + str(timezone))
-     time.sleep(1)
-     print(Fore.MAGENTA + "Description: " + Fore.CYAN + str(source))
- elif command == "./phoneinfo -u":
-     updatephoneinfo()
- elif command == "./phoneinfo -q":
-  print(Fore.RED + "(っ◔◡◔)っ ♥ Quitting.... ♥")
-  break
+    command = input(wi + rd + "[+]Input a command: ")
+    if command == "./phoneinfo -h":
+        print(help)
+    elif command == "./phoneinfo -p -s":
+        phonenum = input("Input a Phone Number to start: ")
+        phone_number = phonenumbers.parse(phonenum)
+        validate = phonenumbers.is_valid_number(phone_number)
+        location = geocoder.country_name_for_number(phone_number, 'en')
+        region = geocoder.description_for_number(phone_number, 'en')
+        probability = phonenumbers.is_possible_number(phone_number)
+        metadata = phonenumbers.PhoneMetadata(phone_number)
+        carrier_desc = carrier.name_for_number(phone_number, 'en')
+        timezone = timezone.time_zones_for_number(phone_number)
+        source = phonenumbers.PhoneNumberDesc(phone_number)
+        str(validate)
+        print(Fore.MAGENTA + "Checking if Phone Number is Valid...")
+        time.sleep(2)
+        print(Fore.CYAN + str(validate))
+        time.sleep(1)
+        print(Fore.MAGENTA + "Location: " + Fore.CYAN + location)
+        time.sleep(1)
+        print(Fore.MAGENTA + "Probability(If False): " + Fore.CYAN + str(probability))
+        time.sleep(1)
+        print(Fore.MAGENTA + "Metadata: " + Fore.CYAN + str(metadata))
+        time.sleep(1)
+        print(Fore.MAGENTA + "Carrier: " + Fore.CYAN + carrier_desc)
+        time.sleep(1)
+        print(Fore.MAGENTA + "Timezone: " + Fore.CYAN + str(timezone))
+        time.sleep(1)
+        print(Fore.MAGENTA + "Description: " + Fore.CYAN + str(source))
+    elif command == "./phoneinfo -u":
+        updatephoneinfo()
+    elif command == "./phoneinfo -q":
+        print(Fore.RED + "(っ◔◡◔)っ ♥ Quitting.... ♥")
+        break
 
- else:
-     print(Fore.RED + '''
-___  __   __   __    __ 
-|__  |__) |__) /  \ |__)    
-|___ |  \ |  \ \__/ |  \    
-                          
-     ''')
+    else:
+        print(Fore.RED + '''
+___  __   __   __    __           
+|__  |__) |__) /  \ |__)      
+|___ |  \ |  \ \__/ |  \      ''')
+        print(Fore.BLUE + '''
+            __n__n__
+    .------`-/00/-'
+   /  ##  ## (oo)   Please Try Again.
+  / \## __   ./
+     |//YY \|/
+     |||   |||   \|/
+        ''')
 time.sleep(0.2)
 sys.exit()
 
