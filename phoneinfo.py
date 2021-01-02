@@ -112,7 +112,6 @@ while True:
      print(Fore.MAGENTA + "Timezone: " + Fore.CYAN + str(timezone))
      time.sleep(1)
      print(Fore.MAGENTA + "Description: " + Fore.CYAN + str(source))
-#+639369403254
  elif command == "./phoneinfo -u":
      updatephoneinfo()
  elif command == "./phoneinfo -q":
