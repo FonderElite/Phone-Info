@@ -80,7 +80,8 @@ print(banner)
 time.sleep(2)
 print(social)
 print(help)
-
+print(Fore.YELLOW + 
+'Support me by donating in my bitcoin wallet:' + Fore.BLUE + btcadd)
 while True:
  command = input(wi + gr + "[+]Input a command: ")
  if command == "./phoneinfo -h":
@@ -125,8 +126,6 @@ ___  __   __   __    __
 |___ |  \ |  \ \__/ |  \    
                           
      ''')
-     print(Fore.YELLOW + '''Thanks For Using My Tool!
-Support me by donating in my bitcoin wallet:''' + btcadd)
 time.sleep(0.2)
 sys.exit()
 
